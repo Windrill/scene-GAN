@@ -1,8 +1,31 @@
 # Scenery-Video-GANs
-This GAN takes an image (80x45px) and outputs a small gif of the size. This network is trained with data from Flickr. Inspirations: "Generating Videos with Scene Dynamics" and "Progressive Growing of GANs"
-This particular neural network takes an image as input and generates a short video that animates the original image.
-The network size is 80x46, and a Generative Adversarial Network is used, trained on Flickr videos collected from the web. 
-The training data is a set of around 4000 videos (after processing) mostly related to sea and bodies of water.
+This Neural Network generates relatively realistic animations from scenic images. This repository includes the saved checkpoint files of the trained network and the model source code. Some examples of input and output pairs are stored in ./examples/
 
-![Original image before neural network evaluation](1.png "Original Image")
-![A small animation of clouds animated like waves](./gif/1.gif "Resulting Output")
+Network Parameters
+-------------------
+Input image size: 80x45 pixels.
+Output animation size: 80x45x32 pixels.
+
+Data Source
+-------------------
+Training data is downloaded from Flickr and subsequently processed. This network is trained on approximately 7000 processed video clips each of the size 80x45x32 px, where the entire training process takes around half a day on a PC with GeForce GTX1050.
+Video clips are mostly tagged with scenery related labels, such as 'sea'. Because the dataset is pulled directly from Flickr and not filtered, it is highly likely that the training dataset have variable quality.
+
+Training
+-------------------
+The model is trained in two steps. A smaller model of size 40x23px is trained beforehand. The source code provided on the repository directly reads from the saved checkpoint file of a trained 40x23px Neural Network model.
+Refer to "Progressive Growing of GANs" (https://arxiv.org/abs/1710.10196) for an in depth description on how two networks of different sizes are incorporated in this project.
+The model is a Convolutional Neural Network, and is also a Generative Adversarial Network.
+
+Loss Function
+-------------------
+Empirically, both the Wasserstein Loss function and the Mean Squared Error Loss function work well. The model code in this project uses the Mean Squared Error loss function.
+
+Extensions
+-------------------
+The model can be modified trained in color easily with more training data. In such a situation the input image size would be 80x45x3, and the number of dimensions increase with the inclusion of an RGB channel. 7000 videos cannot accurately generate colored pixels in this model, and in most models.
+The model's size can be easily extended under the condition that a GPU with a larger memory is available.
+
+Examples
+-------------------
+In ./examples/, note that in 1.gif (if Github doesn't load this in-site, download and open the file in a browser separately) the clouds are animated like sea waves. This is reflective of the distribution of the training data.
