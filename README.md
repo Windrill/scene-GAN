@@ -5,3 +5,4 @@ The network size is 80x46, and a Generative Adversarial Network is used, trained
 The training data is a set of around 4000 videos (after processing) mostly related to sea and bodies of water.
 
 ![Original image before neural network evaluation](1.png "Original Image")
+![A small animation of clouds animated like waves](./gif/1.gif "Resulting Output")
