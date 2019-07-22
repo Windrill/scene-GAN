@@ -19,9 +19,12 @@ import cv2
 import math
 from keras import backend as K
 from keras.engine.topology import Layer
-llis = ["1", "2", "3"]
+
+import time
+llis = ["6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"]
+#llis = ["4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"]
 # Load: contributes the first frame only
-in_path = "F:/Images/"
+in_path = "G:/examples/"
 gen_list = llis
 disc_list = llis
 
@@ -31,6 +34,7 @@ evaluation = True
 #eval_path = "D:/FYP_data/80_adam_0005/"
 eval_path = in_path
 eval_list = llis
+print(eval_list)
 prows = 23
 pcols = 40
 rows = 45
@@ -49,37 +53,41 @@ prevGanP = 'ganbwPng'
 prev_eval = llis
 
 acc_path = "F:/Images/"
-# read: one image
-def readVideo(path, list, read=True, resize=False):
-  for l in list:
-    if " " not in l:
-      with open("Output.txt", "a") as text_file:
-        text_file.write(l)
-      if read:
-        img = os.path.join(path, l, "1.jpg")
-        image = (cv2.imread(img))
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        h, w = image.shape
-        image = np.reshape(image, (h, w, 1))
-        yield (image)/127.5-1
-      else:
-        if resize == True:
-          vid = np.zeros((prows,pcols,afram,channels))
-        else:
-          vid = np.zeros((rows,cols,afram,channels))
-        for a in range(1,33):
-          img = os.path.join(path,l, str(a)+".jpg")
+
+class DCGAN():
+  # read: one image
+  def readVideo(path, list, read=True, resize=False):
+    for l in list:
+      if " " not in l:
+        with open("Output.txt", "a") as text_file:
+          text_file.write(l)
+        if read:
+          img = os.path.join(path, l, "1.jpg")
           image = (cv2.imread(img))
           image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-          if resize== True:
-            image = cv2.resize(image, (pcols, prows))
           h, w = image.shape
           image = np.reshape(image, (h, w, 1))
-          vid[:,:,a-1,:] = (image)/127.5-1
-        yield vid
-class DCGAN():
+          yield (image)/127.5-1
+        else:
+          if resize == True:
+            vid = np.zeros((prows,pcols,afram,channels))
+          else:
+            vid = np.zeros((rows,cols,afram,channels))
+          for a in range(1,33):
+            img = os.path.join(path,l, str(a)+".jpg")
+            image = (cv2.imread(img))
+            image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+            if resize== True:
+              image = cv2.resize(image, (pcols, prows))
+            h, w = image.shape
+            image = np.reshape(image, (h, w, 1))
+            vid[:,:,a-1,:] = (image)/127.5-1
+          yield vid
+  myConst = readVideo(in_path, gen_list)
+
   def cevaluate(self):
     for l in eval_list:
+      print(l)
       if " " not in l:
         img =os.path.join(in_path, l, "1.jpg")
         print(img)  
@@ -94,15 +102,13 @@ class DCGAN():
         imgs=[]
         #shrinked images
         previmgs = np.zeros((5, prows, pcols, bfram, channels))
-        prev_gen = readVideo(in_path, gen_list)
-        gen_batch = readVideo(in_path, gen_list)
+        prev_gen = next(self.myConst)
         # not 5
         for i in range(1):
-          nextimg = next(prev_gen)
           # 45, 80, 1 : input is this size, and network builds on it
-          shrinked = cv2.resize(nextimg, (pcols, prows))
+          shrinked = cv2.resize(prev_gen, (pcols, prows))
           # 23, 40
-          resized_img = cv2.resize(next(gen_batch), (cols, rows))
+          resized_img = cv2.resize(prev_gen, (cols, rows))
           #print(resized_img.shape)
           imgs.append(np.reshape(resized_img, (rows, cols, 1, channels)))
           previmgs[i, :,:,0,0] = shrinked#.append(np.reshape(shrinked, (1, prows, pcols, bfram, channels)))
@@ -124,7 +130,7 @@ class DCGAN():
           predFrame = ((predicted[0,:,:,frame-1,:]+1)*127.5).astype(int)
           # 46, 80
           smth = cv2.imwrite(eval_path + str(timesmp) +"/"+str(frame)+'.png',predFrame)
-        yield
+      yield
     
   def __init__(self, read=False):
     self.pre_shape = (rows, cols,bfram, channels)
@@ -321,5 +327,7 @@ if __name__ == '__main__':
   
   if evaluation:
     func = dcgan.cevaluate()
-    print("done")
-    next(func)
+    for i in range(17):
+      print("done")
+      next(func)
+      time.sleep(1)
