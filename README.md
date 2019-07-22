@@ -1,5 +1,5 @@
 # Scenery-Video-GANs
-This Neural Network generates relatively realistic animations from scenic images. This repository includes the saved checkpoint files of the trained network and the model source code. Some examples of input and output pairs are stored in ./examples/
+This Neural Network generates relatively realistic animations from scenic images. This repository includes the saved checkpoint files of the trained network and the model source code. Some examples outputs are stored in ./output/
 
 Network Parameters
 -------------------
@@ -28,4 +28,5 @@ The model's size can be easily extended under the condition that a GPU with a la
 
 Examples
 -------------------
-In ./examples/, note that in 1.gif (if Github doesn't load this in-site, download and open the file in a browser separately) the clouds are animated like sea waves. This is reflective of the distribution of the training data.
+See ./output/
+Github cannot locally host gif images, some gif images will be uploaded separately and be post on this markdown file, and more examples will be added.
