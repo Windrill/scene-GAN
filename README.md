@@ -28,5 +28,5 @@ The model's size can be easily extended under the condition that a GPU with a la
 
 Examples
 -------------------
-![](examples/1.jpg "Example 1")
+<img src="./examples/1/1.jpg" width="80" height="45"/>
 ![](https://github.com/Windrill/Scenery-Video-GANs/blob/master/examples/1/gout.gif "Example Out")
