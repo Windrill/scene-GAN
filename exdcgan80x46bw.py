@@ -31,10 +31,8 @@ disc_list = llis
 read = True
 training = False
 evaluation = True
-#eval_path = "D:/FYP_data/80_adam_0005/"
 eval_path = in_path
 eval_list = llis
-print(eval_list)
 prows = 23
 pcols = 40
 rows = 45
@@ -45,11 +43,11 @@ channels = 1
 alph_const = 100
 alphOrg = 75
 evalOrg = 60
-genBw = 'genbwPng2'
-ganBw = 'ganbwPng2'
+genBw = 'save/genbwPng2'
+ganBw = 'save/ganbwPng2'
 
-prevGenP = 'genbwPng'
-prevGanP = 'ganbwPng'
+prevGenP = 'save/genbwPng'
+prevGanP = 'save/ganbwPng'
 prev_eval = llis
 
 acc_path = "F:/Images/"
@@ -103,7 +101,6 @@ class DCGAN():
         #shrinked images
         previmgs = np.zeros((5, prows, pcols, bfram, channels))
         prev_gen = next(self.myConst)
-        # not 5
         for i in range(1):
           # 45, 80, 1 : input is this size, and network builds on it
           shrinked = cv2.resize(prev_gen, (pcols, prows))
@@ -302,7 +299,6 @@ class DCGAN():
       d_loss_fake = self.discriminator.train_on_batch([videos, prediction2, alph], valid)
       
 
-      # ---------------------
       #  Train Generator
       g_loss = self.combined.train_on_batch([np.asarray(imgs), prevGenRes, alph], valid)
       print("Real loss", d_loss_real, "Fake loss", d_loss_fake, "G_Loss",str(g_loss))
@@ -317,7 +313,6 @@ class DCGAN():
         tconstant = tconstant + 1
 if __name__ == '__main__':
   tf.reset_default_graph()
-  # read stays false if it's not allowed, becomes false if there's no file
   if not os.path.isfile('./'+ganBw) or read == False:
     read = False
 
