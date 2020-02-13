@@ -1,5 +1,5 @@
-# Scenery-Video-GANs
-This Neural Network generates relatively realistic animations from images. This repository includes the saved checkpoint files of the trained network and the model source code.
+# Scene Video GANs
+Repository includes the saved checkpoint files of the trained network and the model source code.
 
 Examples
 -------------------
@@ -18,12 +18,12 @@ Network and Data
 Input image size: 80x45 pixels.
 Output animation size: 80x45x32 pixels.
 
-Training data is downloaded from Flickr and subsequently processed. This network is trained on approximately 7000 processed video clips each of the size 80x45x32 px, where the entire training process takes around half a day on a PC with GeForce GTX1050.
-Video clips are mostly tagged with scenery related labels, such as 'sea'. The dataset is pulled directly from Flickr and not filtered.
+Training data retrieved from Flickr. This network is trained on approximately 7000 processed video clips each of the size 80x45x32 px. Training takes around half a day on a GeForce GTX1050.
+Video data tagged with scenery related labels are selected for training data, such as 'sea'. The video dataset is not further processed.
 
 Training
 -------------------
-The model is trained in two steps. A smaller model of size 40x23px is trained beforehand. The source code provided on the repository directly reads from the saved checkpoint file of a trained 40x23px Neural Network model.
+The model is trained in two steps. A smaller model of size 40x23px is trained in the first. The source code provided on the repository directly reads from the saved checkpoint file of a trained 40x23px Neural Network model.
 
 The model is a Convolutional Neural Network, and is also a Generative Adversarial Network.
 
