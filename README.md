@@ -1,4 +1,6 @@
-# Scene Video GANs
+# Scene GAN
+Small scene generator via GAN
+
 Repository includes the saved checkpoint files of the trained network and the model source code.
 
 Examples
